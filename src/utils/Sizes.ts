@@ -1,47 +1,55 @@
-import EventEmitter from './EventEmitter'
+import mitt from 'mitt'
+import type { Handler } from 'mitt'
 
-export default class Sizes extends EventEmitter {
-  width
-  height
-  pixelRatio
+type Events = {
+  resize: undefined
+}
+export default class Sizes {
+  /**
+   * Constructor
+   */
+  viewport: { width: number; height: number }
+  $sizeViewport: HTMLDivElement
+  width: number = 0
+  height: number = 0
+  private emitter = mitt<Events>()
   constructor() {
-    super()
-
-    // Setup
-    this.width = window.innerWidth
-    this.height = window.innerHeight
-    this.pixelRatio = Math.min(window.devicePixelRatio, 2)
+    // Viewport size
+    this.viewport = { width: 0, height: 0 }
+    this.$sizeViewport = document.createElement('div')
+    this.$sizeViewport.style.width = '100vw'
+    this.$sizeViewport.style.height = '100vh'
+    this.$sizeViewport.style.position = 'absolute'
+    this.$sizeViewport.style.top = '0px'
+    this.$sizeViewport.style.left = '0px'
+    this.$sizeViewport.style.pointerEvents = 'none'
 
     // Resize event
-    window.addEventListener('resize', () => {
-      this.resize()
-    })
+    this.resize = this.resize.bind(this)
+    window.addEventListener('resize', this.resize)
 
-    //Orientation change event
-    window.onorientationchange = async () => {
-      await this.sleep(10)
-      this.resize()
-    }
-
-    //Screen wake event
-    document.addEventListener('visibilitychange', async () => {
-      if (document.hidden) return
-
-      await this.sleep(500)
-      this.resize()
-    })
+    this.resize()
   }
 
-  //manual trigger
+  /**
+   * Resize
+   */
   resize() {
+    document.body.appendChild(this.$sizeViewport)
+    this.viewport.width = this.$sizeViewport.offsetWidth
+    this.viewport.height = this.$sizeViewport.offsetHeight
+    document.body.removeChild(this.$sizeViewport)
+
     this.width = window.innerWidth
     this.height = window.innerHeight
-    this.pixelRatio = Math.min(window.devicePixelRatio, 2)
 
-    this.trigger('resize')
+    this.emitter.emit('resize')
   }
 
-  sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms))
+  /**
+   * Event listen
+   */
+  on(type: keyof Events, handler: Handler<Events[keyof Events]>) {
+    this.emitter.on(type, handler)
   }
 }

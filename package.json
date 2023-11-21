@@ -1,6 +1,8 @@
 {
   "name": "life-trajectory",
-  "author": {"name": "mHaoza"},
+  "author": {
+    "name": "mHaoza"
+  },
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -19,14 +21,15 @@
     "gsap": "^3.12.2",
     "howler": "^2.2.4",
     "lil-gui": "^0.18.2",
+    "mitt": "^3.0.1",
     "pinia": "^2.1.7",
     "three": "^0.150.1",
     "vue": "^3.3.8"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.5.1",
-    "@types/node": "^18.18.9",
-    "@types/three": "^0.149.0",
+    "@types/node": "^18.18.11",
+    "@types/three": "0.150.1",
     "@vitejs/plugin-vue": "^4.5.0",
     "@vue/eslint-config-prettier": "^7.1.0",
     "@vue/eslint-config-typescript": "^11.0.3",
