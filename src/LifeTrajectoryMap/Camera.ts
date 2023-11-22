@@ -2,11 +2,13 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import type Time from '@/utils/Time'
 import type Sizes from '@/utils/Sizes'
+import type GUI from 'lil-gui'
 
 interface Options {
   time: Time
   sizes: Sizes
   renderer: THREE.WebGLRenderer
+  debug?: GUI
 }
 
 export default class Camera {
@@ -16,15 +18,24 @@ export default class Camera {
   renderer: THREE.WebGLRenderer
   orbitControls!: OrbitControls
   instance!: THREE.PerspectiveCamera
+  debug?: GUI
+  debugFolder?: GUI
   constructor(_options: Options) {
     // Options
     this.time = _options.time
     this.sizes = _options.sizes
     this.renderer = _options.renderer
+    this.debug = _options.debug
 
     // Set up
     this.container = new THREE.Object3D()
     this.container.matrixAutoUpdate = false
+
+    // Debug
+    if (this.debug) {
+      this.debugFolder = this.debug.addFolder('camera')
+      // this.debugFolder.open()
+    }
 
     this.setInstance()
     this.setOrbitControls()
@@ -58,5 +69,12 @@ export default class Camera {
     this.orbitControls.enabled = false
     // this.orbitControls.enableKeys = false
     this.orbitControls.zoomSpeed = 0.5
+
+    // Debug
+    if (this.debug) {
+      this.debugFolder
+        ?.add(this.orbitControls, 'enabled')
+        .name('orbitControlsEnabled')
+    }
   }
 }

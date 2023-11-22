@@ -46,4 +46,10 @@ export default class Time {
   on(type: keyof Events, handler: Handler<Events[keyof Events]>) {
     this.emitter.on(type, handler)
   }
+  /**
+   * Event off
+   */
+  off(type: keyof Events, handler?: Handler<Events[keyof Events]>) {
+    this.emitter.off(type, handler)
+  }
 }
