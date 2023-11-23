@@ -43,14 +43,13 @@ export default class Camera {
   setInstance() {
     // Set up
     this.instance = new THREE.PerspectiveCamera(
-      40,
+      45,
       this.sizes.viewport.width / this.sizes.viewport.height,
-      1,
-      80
+      0.1,
+      5000
     )
-    this.instance.up.set(0, 0, 1)
-    this.instance.lookAt(new THREE.Vector3())
-    this.instance.position.copy(new THREE.Vector3(10, 10, 10))
+    this.instance.position.set(0, -40, 70)
+    this.instance.lookAt(0, 0, 0)
     this.container.add(this.instance)
 
     // Resize event

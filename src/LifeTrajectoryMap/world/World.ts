@@ -4,6 +4,8 @@ import type Sizes from '@/utils/Sizes'
 import type Time from '@/utils/Time'
 import type Camera from '../Camera'
 import type GUI from 'lil-gui'
+import ChinaMap from './ChinaMap'
+import Floor from './Floor'
 
 interface WorldOptions {
   time: Time
@@ -46,10 +48,35 @@ export default class World {
     this.container.add(cube)
 
     this.setAxes()
+    this.setLight()
+    this.setFloor()
+    this.setChinaMap()
     console.log(this)
   }
   setAxes() {
     this.axis = new THREE.AxesHelper(100)
     this.container.add(this.axis)
+  }
+
+  setLight() {
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1) // 环境光
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 4) // 平行光
+    directionalLight.position.set(10000, -10000, 10000)
+    directionalLight.castShadow = true
+    directionalLight.shadow.mapSize.width = 1024
+    directionalLight.shadow.mapSize.height = 1024
+
+    this.container.add(ambientLight, directionalLight)
+  }
+
+  setFloor() {
+    const floor = new Floor()
+    this.container.add(floor.container)
+  }
+
+  setChinaMap() {
+    const chinaMap = new ChinaMap()
+    this.container.add(chinaMap.container)
   }
 }
