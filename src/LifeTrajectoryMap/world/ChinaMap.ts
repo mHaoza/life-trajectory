@@ -92,7 +92,6 @@ export default class ChinaMap {
         const [x, y] = this.projection(elem.properties.centorid) ?? []
         province.properties && (province.properties._centroid = [x, y])
       }
-      console.log('province', province)
 
       this.container.add(province)
     })

@@ -42,12 +42,8 @@ export default class World {
       this.debugFolder.close()
     }
 
-    const geometry = new THREE.BoxGeometry(5, 5, 5)
-    const material = new THREE.MeshBasicMaterial({ color: 0x44aa88 })
-    const cube = new THREE.Mesh(geometry, material)
-    this.container.add(cube)
-
     this.setAxes()
+    this.setGrid()
     this.setLight()
     this.setFloor()
     this.setChinaMap()
@@ -58,11 +54,18 @@ export default class World {
     this.container.add(this.axis)
   }
 
+  setGrid() {
+    const gridHelper = new THREE.GridHelper(2000, 200)
+    gridHelper.rotation.set(Math.PI / 2, 0, 0)
+    // gridHelper.position.z = 10
+    this.container.add(gridHelper)
+  }
+
   setLight() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 1) // 环境光
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 4) // 平行光
-    directionalLight.position.set(10000, -10000, 10000)
+    directionalLight.position.set(10000, 10000, 10000)
     directionalLight.castShadow = true
     directionalLight.shadow.mapSize.width = 1024
     directionalLight.shadow.mapSize.height = 1024
