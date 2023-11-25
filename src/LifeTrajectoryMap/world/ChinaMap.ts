@@ -12,25 +12,15 @@ export default class ChinaMap {
     this.container = new THREE.Object3D()
     this.container.name = 'ChinaMap'
     // 墨卡托投影转换
-    this.projection = d3
-      .geoMercator()
-      .center([104.0, 37.5])
-      .scale(80)
-      .translate([0, 0])
+    this.projection = d3.geoMercator().center([104.0, 37.5]).scale(80).translate([0, 0])
 
     this.initMap()
   }
 
   async initMap() {
-    const chinaJson = (await import(
-      '@/assets/map/json/china.json'
-    )) as GeoJSON.FeatureCollection<GeoJSON.MultiPolygon>
+    const chinaJson = (await import('@/assets/map/json/china.json')) as GeoJSON.FeatureCollection<GeoJSON.MultiPolygon>
 
-    const COLOR_ARR: THREE.ColorRepresentation[] = [
-      '#0465BD',
-      '#357bcb',
-      '#3a7abd'
-    ]
+    const COLOR_ARR: THREE.ColorRepresentation[] = ['#0465BD', '#357bcb', '#3a7abd']
 
     chinaJson.features.forEach((elem, index) => {
       // 定一个省份3D对象
@@ -44,8 +34,7 @@ export default class ChinaMap {
           const shape = new THREE.Shape()
 
           for (let i = 0; i < polygon.length; i++) {
-            const [x = 0, y = 0] =
-              this.projection(polygon[i] as [number, number]) ?? []
+            const [x = 0, y = 0] = this.projection(polygon[i] as [number, number]) ?? []
 
             if (i === 0) {
               shape.moveTo(x, -y)

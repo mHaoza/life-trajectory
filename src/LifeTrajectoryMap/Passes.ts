@@ -54,14 +54,8 @@ export default class Passes {
 
     // Resize event
     this.sizes.on('resize', () => {
-      this.renderer.setSize(
-        this.sizes.viewport.width,
-        this.sizes.viewport.height
-      )
-      this.composer.setSize(
-        this.sizes.viewport.width,
-        this.sizes.viewport.height
-      )
+      this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
+      this.composer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
     })
   }
 }

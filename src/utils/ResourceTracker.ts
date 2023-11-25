@@ -41,10 +41,7 @@ export default class ResourceTracker {
         for (const value of Object.values(resource.uniforms)) {
           if (value) {
             const uniformValue = value.value
-            if (
-              uniformValue instanceof THREE.Texture ||
-              Array.isArray(uniformValue)
-            ) {
+            if (uniformValue instanceof THREE.Texture || Array.isArray(uniformValue)) {
               this.track(uniformValue)
             }
           }
