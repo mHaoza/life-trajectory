@@ -42,38 +42,43 @@ export default class Camera {
   }
   setInstance() {
     // Set up
-    this.instance = new THREE.PerspectiveCamera(
-      45,
-      this.sizes.viewport.width / this.sizes.viewport.height,
-      0.1,
-      5000
-    )
+    this.instance = new THREE.PerspectiveCamera(45, this.sizes.viewport.width / this.sizes.viewport.height, 0.1, 5000)
     this.instance.position.set(0, -40, 70)
     this.instance.lookAt(0, 0, 0)
     this.container.add(this.instance)
 
     // Resize event
     this.sizes.on('resize', () => {
-      this.instance.aspect =
-        this.sizes.viewport.width / this.sizes.viewport.height
+      this.instance.aspect = this.sizes.viewport.width / this.sizes.viewport.height
       this.instance.updateProjectionMatrix()
     })
   }
   setOrbitControls() {
     // Set up
-    this.orbitControls = new OrbitControls(
-      this.instance,
-      this.renderer.domElement
-    )
-    this.orbitControls.enabled = false
+    this.orbitControls = new OrbitControls(this.instance, this.renderer.domElement)
+    this.orbitControls.enabled = true
     // this.orbitControls.enableKeys = false
     this.orbitControls.zoomSpeed = 0.5
 
+    this.orbitControls.minPolarAngle = Math.PI / 3
+    this.orbitControls.maxPolarAngle = (Math.PI / 3) * 2
+    this.orbitControls.minAzimuthAngle = -(Math.PI / 6)
+    this.orbitControls.maxAzimuthAngle = Math.PI / 6
+    this.orbitControls.minDistance = 20
+    this.orbitControls.maxDistance = 160
+    this.orbitControls.enableDamping = true
+    this.orbitControls.dampingFactor = 0.01
+
+    this.time.on('tick', () => {
+      this.orbitControls.update()
+      if (this.orbitControls.target.x > 100) {
+        this.orbitControls.target.x = 100
+      }
+    })
+
     // Debug
     if (this.debug) {
-      this.debugFolder
-        ?.add(this.orbitControls, 'enabled')
-        .name('orbitControlsEnabled')
+      this.debugFolder?.add(this.orbitControls, 'enabled').name('orbitControlsEnabled')
     }
   }
 }
