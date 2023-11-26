@@ -1,11 +1,11 @@
 import * as THREE from 'three'
+import ChinaMap from './ChinaMap'
+import Floor from './Floor'
 
 import type Sizes from '@/utils/Sizes'
 import type Time from '@/utils/Time'
 import type Camera from '../Camera'
 import type GUI from 'lil-gui'
-import ChinaMap from './ChinaMap'
-import Floor from './Floor'
 
 interface WorldOptions {
   time: Time

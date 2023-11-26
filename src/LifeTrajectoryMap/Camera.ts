@@ -67,7 +67,7 @@ export default class Camera {
     this.orbitControls.minDistance = 20
     this.orbitControls.maxDistance = 160
     this.orbitControls.enableDamping = true
-    this.orbitControls.dampingFactor = 0.01
+    // this.orbitControls.dampingFactor = 0.01
 
     this.time.on('tick', () => {
       this.orbitControls.update()

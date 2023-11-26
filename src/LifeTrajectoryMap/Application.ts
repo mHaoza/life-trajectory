@@ -5,6 +5,8 @@ import Camera from './Camera'
 import World from './world/World'
 import GUI from 'lil-gui'
 import Passes from './Passes'
+import Raycaster from './Raycaster'
+
 interface ApplicationOptions {
   $canvas: HTMLCanvasElement
 }
@@ -18,6 +20,7 @@ export default class Application {
   scene!: THREE.Scene
   renderer!: THREE.WebGLRenderer
   camera!: Camera
+  raycaster!: Raycaster
   passes!: Passes
   world!: World
   constructor(_options: ApplicationOptions) {
@@ -32,6 +35,7 @@ export default class Application {
     this.setDebug()
     this.setRenderer()
     this.setCamera()
+    this.setRaycaster()
     this.setPasses()
     this.setWorld()
   }
@@ -93,6 +97,18 @@ export default class Application {
 
     this.scene.add(this.camera.container)
   }
+
+  /**
+   * Set Raycaster
+   */
+  setRaycaster() {
+    this.raycaster = new Raycaster({
+      $canvas: this.$canvas,
+      time: this.time,
+      camera: this.camera
+    })
+  }
+
   setPasses() {
     // Create passes
     this.passes = new Passes({
