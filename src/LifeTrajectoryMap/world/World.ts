@@ -57,7 +57,7 @@ export default class World {
   setGrid() {
     const gridHelper = new THREE.GridHelper(2000, 200)
     gridHelper.rotation.set(Math.PI / 2, 0, 0)
-    // gridHelper.position.z = 10
+    gridHelper.position.z = 0.1
     this.container.add(gridHelper)
   }
 
@@ -74,7 +74,7 @@ export default class World {
   }
 
   setFloor() {
-    const floor = new Floor()
+    const floor = new Floor({ debug: this.debugFolder })
     this.container.add(floor.container)
   }
 

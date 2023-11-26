@@ -1,21 +1,26 @@
+import type GUI from 'lil-gui'
 import * as THREE from 'three'
 
+interface FloorOptions {
+  debug?: GUI
+}
 export default class Floor {
   container: THREE.Object3D
-  constructor() {
+  debug?: GUI
+  constructor(_options: FloorOptions) {
     this.container = new THREE.Object3D()
     this.container.name = 'Floor'
+    this.debug = _options.debug
 
     this.init()
   }
   init() {
-    const floorMaterial = new THREE.MeshStandardMaterial({
+    const floorMaterial = new THREE.MeshBasicMaterial({
       color: 0x031837,
-      // specular: 0x111111,
-      metalness: 0,
-      roughness: 1,
+      // metalness: 0,
+      // roughness: 1,
       // opacity: 0.2,
-      opacity: 0.5,
+      opacity: 1,
       transparent: true
     })
     const floorGeometry = new THREE.PlaneGeometry(2000, 2000, 1, 1)
@@ -28,5 +33,10 @@ export default class Floor {
     floor.receiveShadow = true
 
     this.container.add(floor)
+
+    if (this.debug) {
+      const debugFolder = this.debug.addFolder('floor')
+      debugFolder.addColor(floorMaterial, 'color').name('floorColor')
+    }
   }
 }
