@@ -6,6 +6,7 @@ import type Sizes from '@/utils/Sizes'
 import type Time from '@/utils/Time'
 import type Camera from '../Camera'
 import type GUI from 'lil-gui'
+import FlyLine from './FlyLine'
 
 interface WorldOptions {
   time: Time
@@ -47,6 +48,7 @@ export default class World {
     this.setLight()
     this.setFloor()
     this.setChinaMap()
+    this.setFlyLine()
     console.log(this)
   }
   setAxes() {
@@ -81,5 +83,10 @@ export default class World {
   setChinaMap() {
     const chinaMap = new ChinaMap()
     this.container.add(chinaMap.container)
+  }
+
+  setFlyLine() {
+    const flyLine = new FlyLine()
+    this.container.add(flyLine.container)
   }
 }
